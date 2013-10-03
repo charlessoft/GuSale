@@ -33,17 +33,26 @@ BOOL CGuSaleData::Rebuild( CGuSaleData* pRoot )
 
 void CGuSaleData::SetCnt( string key, CGuSaleData* pGuSale, void* obj )
 {
-	this->m_Cnt = (int)obj;
+	if ( obj )
+	{
+		this->m_Cnt = (int)obj;
+	}
 }
 
 void CGuSaleData::SetTrade_type( string key, CGuSaleData* pGuSale, void* obj )
 {
-	this->m_Trade_type = (char*)obj;
+	if ( obj )
+	{
+		this->m_Trade_type = (char*)obj;
+	}
 }
 
 void CGuSaleData::SetDay( string key, CGuSaleData* pGuSale, void* obj )
 {
-	this->m_Day = (char*)obj;
+	if ( obj )
+	{
+		this->m_Day = (char*)obj;
+	}
 }
 
 void CGuSaleData::DealJsonNode( string strNode, string value )

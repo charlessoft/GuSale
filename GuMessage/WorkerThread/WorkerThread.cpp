@@ -79,9 +79,14 @@ EThreadRoutineExitType CWorkerThread::Run_InTake()
 		SaleInfo.GetSaleInfo(INTAKE,nOffset ,10);
 		nOffset += 10;
 		
+		if ( !SaleInfo.m_pGuSaleData )
+		{
+			continue;
+		}
 		EnterCriticalSection( &pDlg->m_lock );
 		vector<CGuSaleList*>::iterator Iter;
 		CGuSaleList* pSaleList = NULL;
+		
 		for ( Iter = SaleInfo.m_pGuSaleData->m_GuSaleListArr.begin(); Iter != SaleInfo.m_pGuSaleData->m_GuSaleListArr.end(); ++Iter )
 		{
 			CTime CurDatetime = CTime::GetCurrentTime();
@@ -146,7 +151,10 @@ EThreadRoutineExitType CWorkerThread::Run_OffTake()
 		SaleInfo.GetSaleInfo( OFFTAKE, nOffset, 10 );
 		nOffset += 10;
 
-
+		if ( !SaleInfo.m_pGuSaleData )
+		{
+			continue;
+		}
 		EnterCriticalSection( &pDlg->m_lock );
 		vector<CGuSaleList*>::iterator Iter;
 		CGuSaleList* pSaleList = NULL;

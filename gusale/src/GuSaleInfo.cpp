@@ -26,11 +26,6 @@ CGuSaleInfo::~CGuSaleInfo()
 
 }
 
-// BOOL CGuSaleInfo::ParseJson( CGobj* pRoot, const char* json )
-// {
-// 	return TRUE;
-// }
-
 
 BOOL CGuSaleInfo::Rebuild( CGobj* pRoot )
 {
@@ -41,12 +36,18 @@ BOOL CGuSaleInfo::Rebuild( CGobj* pRoot )
 
 void CGuSaleInfo::SetCode( string key, CGuSaleInfo* pGuSale, void* obj )
 {
-	m_code = (char*)obj;
+	if ( obj )
+	{
+		m_code = (char*)obj;
+	}
 }
 
 void CGuSaleInfo::SetMsg( string key, CGuSaleInfo* pGuSale, void* obj )
 {
-	m_msg = (char*)obj;
+	if ( obj )
+	{
+		m_msg = (char*)obj;
+	}
 }
 
 void CGuSaleInfo::SetData( string key, CGuSaleInfo* pGuSale, void* obj )
@@ -66,6 +67,7 @@ void CGuSaleInfo::SetList( string key, CGuSaleInfo* pGuSale, void* obj )
 
 void CGuSaleInfo::GetSaleInfo( int trade_type, int offset, int view_cnt )
 {
+	
 	stringstream strPostDataStream;
 	string strurl = "http://www.gu360.com/performance/tradinglist";
 	Service CService;
