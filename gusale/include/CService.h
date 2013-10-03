@@ -59,6 +59,8 @@ typedef struct _FILEACCESS_
 class Service 
 { 
 public: 
+	static void InitData();
+	static void DestroyData();
 	Service();
 	Service( const string& service_name, const string& application_name ); 
 	~Service() {} 

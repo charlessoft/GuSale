@@ -2,7 +2,8 @@
 #define _CGUSALEINFO_H_
 #include "typedefine.h" 
 #include "IParseJson.h"
-
+#define INTAKE  1
+#define OFFTAKE -1
 class CGuSaleData;
 class CGuSaleList;
 class CGuSaleInfo : public CGobj , public IParseJson
@@ -37,7 +38,8 @@ public:
 
 	void SetList( string key, CGuSaleInfo* pGuSale, void* obj );
 
-	void GetSaleInfo();
+	//获取股票买卖数据 taade_type =0/-1, offset偏移, view_cnt 一次显示个数
+	void GetSaleInfo( int trade_type, int offset, int view_cnt );
 
 	CGuSaleData* m_pGuSaleData;
 

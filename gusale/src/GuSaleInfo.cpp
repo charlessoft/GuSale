@@ -1,5 +1,10 @@
 #include "../include/GuSaleInfo.h"
 #include "../include/CService.h"
+#include "../include/GuSaleData.h"
+#include <iostream> 
+#include <sstream> 
+using namespace std; 
+using namespace std;
 CGuSaleInfo::CGuSaleInfo()
 {
 	m_pGuSaleData = NULL;
@@ -59,11 +64,14 @@ void CGuSaleInfo::SetList( string key, CGuSaleInfo* pGuSale, void* obj )
 }
 
 
-void CGuSaleInfo::GetSaleInfo()
+void CGuSaleInfo::GetSaleInfo( int trade_type, int offset, int view_cnt )
 {
+	stringstream strPostDataStream;
 	string strurl = "http://www.gu360.com/performance/tradinglist";
 	Service CService;
-	string strPostData = "trade_type=1&offset=0&view_cnt=11";
+	//string strPostData = "trade_type=1&offset=1&view_cnt=11";
+	strPostDataStream << "trade_type=" << trade_type << "&offset=" << offset << "&view_cnt=" << view_cnt;
+	string strPostData = strPostDataStream.str();
 	vector<string> custom_header;
 	custom_header.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
 	custom_header.push_back("X-Requested-With: XMLHttpRequest");
@@ -97,7 +105,7 @@ IParseJson* CGuSaleInfo::CreateJsonItem( string strKey )
 	if ( strKey == "data" )
 	{
 		m_pGuSaleData = new CGuSaleData;
-		return (IParseJson*)m_pGuSaleData;
+		return m_pGuSaleData;
 	}
 	
 }

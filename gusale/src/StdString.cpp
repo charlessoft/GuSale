@@ -1,3 +1,4 @@
+#include "../include/typedefine.h"
 #include "../include/StdString.h"
 
 

@@ -32,7 +32,7 @@ public:
 
 	vector<CGuSaleList*> m_GuSaleListArr;
 
-	string m_Cnt;
+	int m_Cnt;
 	
 	string m_Trade_type;
 
@@ -40,6 +40,12 @@ public:
 
 	//IParseJson
 	virtual void DealJsonNode( string strNode, string value );
+
+	virtual void DealJsonNode( string strNode, int value );
+
+	virtual void DealJsonNode( string strNode, unsigned int value );
+
+	virtual void DealJsonNode( string strNode, double value );
 
 	virtual IParseJson* CreateJsonItem( string strKey );
 	

@@ -2,8 +2,8 @@
 //
 
 #pragma once
-
-
+#include "DICThreadPool/DICThreadPool.h"
+#include "WorkerThread/WorkerThread.h"
 // CGuMessageDlg dialog
 class CGuMessageDlg : public CDialog
 {
@@ -30,4 +30,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedOk();
+	void InitData();
+	void BeginPullData();
+	CDICThreadPool m_ThreadPool;
+public:
+	int m_nview_cnt;
+	CRITICAL_SECTION m_lock;
+public:
+	afx_msg void OnDestroy();
 };

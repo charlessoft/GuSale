@@ -1,13 +1,23 @@
 #include "../include/GuSaleData.h"
+#include "../include/GuSaleList.h"
 
 CGuSaleData::CGuSaleData()
 {
+	mapfunc["cnt"] = &CGuSaleData::SetCnt;
+	mapfunc["trade_type"]=&CGuSaleData::SetTrade_type;
+	mapfunc["day"]=&CGuSaleData::SetDay;
 
 }
 
 CGuSaleData::~CGuSaleData()
 {
-
+	vector<CGuSaleList*>::iterator Iter;
+	for ( Iter = this->m_GuSaleListArr.begin(); Iter != this->m_GuSaleListArr.end(); ++Iter )
+	{
+		delete *Iter;
+	}
+	this->m_GuSaleListArr.clear();
+	
 }
 
 BOOL CGuSaleData::ParseJson( CGuSaleData* pRoot, const char* json )
@@ -23,7 +33,7 @@ BOOL CGuSaleData::Rebuild( CGuSaleData* pRoot )
 
 void CGuSaleData::SetCnt( string key, CGuSaleData* pGuSale, void* obj )
 {
-	this->m_Cnt = (char*)obj;
+	this->m_Cnt = (int)obj;
 }
 
 void CGuSaleData::SetTrade_type( string key, CGuSaleData* pGuSale, void* obj )
@@ -45,13 +55,41 @@ void CGuSaleData::DealJsonNode( string strNode, string value )
 	}
 }
 
+void CGuSaleData::DealJsonNode( string strNode, int value )
+{
+	GuSaleDataMap::iterator Iter = mapfunc.find( strNode );
+	if ( Iter != mapfunc.end() )
+	{
+		(this->*mapfunc[strNode])( strNode, this, (void*)value );
+	}
+}
+
+void CGuSaleData::DealJsonNode( string strNode, unsigned int value )
+{
+	GuSaleDataMap::iterator Iter = mapfunc.find( strNode );
+	if ( Iter != mapfunc.end() )
+	{
+		(this->*mapfunc[strNode])( strNode, this, (void*)value );
+	}
+}
+
+void CGuSaleData::DealJsonNode( string strNode, double value )
+{
+	GuSaleDataMap::iterator Iter = mapfunc.find( strNode );
+	if ( Iter != mapfunc.end() )
+	{
+		(this->*mapfunc[strNode])( strNode, this, (void*)&value );
+	}
+}
+
+
 IParseJson* CGuSaleData::CreateJsonItem( string strKey )
 {
 	if ( strKey == "list" )
 	{
 		CGuSaleList* pGuSaleList = new CGuSaleList;
 		this->m_GuSaleListArr.push_back( pGuSaleList );
-		return (IParseJson*)pGuSaleList;
+		return pGuSaleList;
 	}
-
+	return NULL;
 }

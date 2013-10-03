@@ -43,6 +43,9 @@
 
 #include "../gusale/include/CService.h"
 #include "../gusale/include/GuSaleInfo.h"
+#include "../gusale/include/GuSaleData.h"
+#include "../gusale/include/GuSaleList.h"
+#include "../gusale/include/LoggerModule.h"
 
 
 #ifndef _AFX_NO_OLE_SUPPORT
@@ -51,7 +54,7 @@
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
-
+#include "GuMessage.h"
 #include <string>
 #include <vector>
 using namespace std;

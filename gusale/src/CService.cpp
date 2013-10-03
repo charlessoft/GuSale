@@ -31,6 +31,16 @@ Service::Service()
 	m_pFileAccessStruct = NULL;
 }
 
+void Service::InitData()
+{
+	curl_global_init(CURL_GLOBAL_ALL);
+}
+
+void Service::DestroyData()
+{
+	curl_global_cleanup();
+}
+
 size_t Service::WriteCallback( char* data, size_t size, size_t nitems, void* userp )
 {
 	size_t	result = 0; 
@@ -253,9 +263,10 @@ int Service::HttpRequest( const string http_method,
 	const PutData* lpPutData,
 	Service* lpService)
 {
+	
 	//	string resp_buffer;  // body of the response from the server
 	char *memblock = NULL;  // file size of POST body
-	curl_global_init(CURL_GLOBAL_ALL);
+	
 	CURL *curl = curl_easy_init();
 	char errorBuffer[CURL_ERROR_SIZE]={0};
 	if ( curl ) 
@@ -354,7 +365,7 @@ int Service::HttpRequest( const string http_method,
 		// clean up
 		curl_easy_cleanup(curl);
 		curl_slist_free_all(headers);
-		curl_global_cleanup();
+		
 		if ( memblock != NULL )
 		{
 			delete[] memblock;

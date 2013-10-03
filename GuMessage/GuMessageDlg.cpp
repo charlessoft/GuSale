@@ -6,6 +6,11 @@
 #include "GuMessageDlg.h"
 #include <string>
 #include <vector>
+#include <iostream>
+#include <sstream> 
+#include "StdString.h"
+#include "ado/DataOperate.h"
+#include "ado/ISQLHelper.h"
 using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -50,6 +55,7 @@ END_MESSAGE_MAP()
 
 CGuMessageDlg::CGuMessageDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CGuMessageDlg::IDD, pParent)
+	, m_nview_cnt(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -57,6 +63,7 @@ CGuMessageDlg::CGuMessageDlg(CWnd* pParent /*=NULL*/)
 void CGuMessageDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_VIEW_CNT, m_nview_cnt);
 }
 
 BEGIN_MESSAGE_MAP(CGuMessageDlg, CDialog)
@@ -65,6 +72,7 @@ BEGIN_MESSAGE_MAP(CGuMessageDlg, CDialog)
 	ON_WM_QUERYDRAGICON()
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDOK, &CGuMessageDlg::OnBnClickedOk)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -98,8 +106,53 @@ BOOL CGuMessageDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	
+	InitData();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
+}
+
+void CGuMessageDlg::InitData()
+{
+	g_Logger.StartSystem(_T("log4cplus._properties"));
+	g_Logger.Debug(__FILE__, __LINE__, _T("Init"));
+	m_ThreadPool.Create( POOL_SIZE, 1, 1, 1);
+
+	g_DbOperate.AdddDbMgr( _T("Sqlite") );
+	g_DbOperate.SetDBType( CDataOperate::DATABASE_TYPE::SQLITE );
+	g_DbOperate.SetInstance( _T("saledb.db") );
+	g_DbOperate.InitConnstring();
+	
+
+	InitializeCriticalSection( &m_lock );
+
+}
+
+void CGuMessageDlg::BeginPullData()
+{
+
+ 	CWorkerThread* pWorkInTakeThread = new CWorkerThread();
+ 	pWorkInTakeThread->SetIndex( 0 );
+ 	pWorkInTakeThread->SetType( THREAD_TYPE_PULL_INTAKE );
+ 	pWorkInTakeThread->SetAutoDelete( TRUE );
+ 	if ( FALSE == m_ThreadPool.Run( pWorkInTakeThread ))
+ 	{
+ 		g_Logger.Debug( __FILE__, __LINE__, _T("获取买入线程失败!") );
+ 	}
+
+
+//  	CWorkerThread* pWorkOffTakeThread = new CWorkerThread();
+//  	pWorkOffTakeThread->SetIndex( 0 );
+//  	pWorkOffTakeThread->SetType( THREAD_TYPE_PULL_OFFTAKE );
+//  	pWorkOffTakeThread->SetAutoDelete( TRUE );
+//  	if ( FALSE == m_ThreadPool.Run( pWorkOffTakeThread ))
+//  	{
+//  		g_Logger.Debug( __FILE__, __LINE__, _T("获取卖出线程失败!") );
+//  	}
+
+
+
+
 }
 
 void CGuMessageDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -151,13 +204,58 @@ HCURSOR CGuMessageDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
+const int UNICODE_TXT_FLG = 0xFEFF;  //UNICODE文本标示  
 void CGuMessageDlg::OnBnClickedOk()
 {
+	BeginPullData();
 	// TODO: Add your control notification handler code here
 	//OnOK();
-	CGuSaleInfo SaleInfo;
-	SaleInfo.GetSaleInfo();
+// 	g_Logger.StartSystem(_T("log4cplus._properties"));
+// 	g_Logger.Debug(__FILE__, __LINE__, _T("111"));
+// 	UpdateData();
+//  	CGuSaleInfo SaleInfo;
+//  	SaleInfo.GetSaleInfo(INTAKE,1,m_nview_cnt);
+// 	Service CService;
+// 	CService.HttpRequest("GET","1");
+#if 0	
+stringstream strStream;
+
+CString strtmp;
+//1947
+	for (int i=1947;i<2900000;i++)
+	{
+		
+		strStream.clear();
+		strStream.str("");
+		strStream << "http://www.gu360.com/home/" << i;
+		//strStream << "http://www.gu360.com/home/1915042";// << i;
+		  	string strurl = strStream.str();//"http://www.gu360.com/home/1915042";
+		   	Service CService;
+			strtmp.Format(_T("%d------------------\r\n"),i);
+			OutputDebugString(strtmp);
+		   	CService.HttpRequest("GET",strurl);
+		   	string buffer = CService.m_resp_buffer;
+			wstring wzbuf = UTF8ToUnicode(buffer);
+			OutputDebugString(wzbuf.data());
+			CString strfile;
+			  			strfile.Format(_T("C:\\tmp\\%d.txt"),i);
+			CFile WriteF;
+
+			WriteF.Open(strfile,CFile::modeCreate | CFile::modeWrite);  
+			if(WriteF)  
+			{  
+				WriteF.Write(&UNICODE_TXT_FLG,2);  
+				WriteF.Write(wzbuf.c_str(),wzbuf.length()*2);  
+				WriteF.Flush();  
+				WriteF.Close();         
+			}  
+		   	string header = CService.m_resp_header;
+	}
+#endif
+// 	UpdateData(FALSE);
+// 	CString str;
+// 	str.Format(_T("%d"),SaleInfo.m_pGuSaleData->m_GuSaleListArr.size());
+// 	AfxMessageBox(str);
 //  	string strurl = "http://www.gu360.com/performance/tradinglist";
 //   	Service CService;
 //   	string strPostData = "trade_type=1&offset=0&view_cnt=11";
@@ -173,4 +271,12 @@ void CGuMessageDlg::OnBnClickedOk()
 //   	string header = CService.m_resp_header;
 //  	int x = 0 ;
 
+}
+
+void CGuMessageDlg::OnDestroy()
+{
+	CDialog::OnDestroy();
+
+	DeleteCriticalSection( &m_lock );
+	// TODO: Add your message handler code here
 }

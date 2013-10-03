@@ -23,8 +23,13 @@ typedef int                 BOOL;
 #endif
 #endif
 
-#include "../lib/jsoncpp/include/json/json.h"
-#include "../lib/curl/include/curl/curl.h"
+//#include "../lib/jsoncpp/include/json/json.h"
+//#include "../lib/curl/include/curl/curl.h"
+#include "../lib/jsoncpp-src-0.5.0/include/json/json.h"
+#include "../lib/curl-7.32.0/include/curl/curl.h"
+
+#define	WIN_PLATFORM
+#include <windows.h>
 
 #include <string>
 #include <vector>
