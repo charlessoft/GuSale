@@ -55,7 +55,6 @@ END_MESSAGE_MAP()
 
 CGuMessageDlg::CGuMessageDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CGuMessageDlg::IDD, pParent)
-	, m_nview_cnt(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -63,7 +62,7 @@ CGuMessageDlg::CGuMessageDlg(CWnd* pParent /*=NULL*/)
 void CGuMessageDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_VIEW_CNT, m_nview_cnt);
+	
 }
 
 BEGIN_MESSAGE_MAP(CGuMessageDlg, CDialog)

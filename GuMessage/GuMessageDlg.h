@@ -34,7 +34,6 @@ public:
 	void BeginPullData();
 	CDICThreadPool m_ThreadPool;
 public:
-	int m_nview_cnt;
 	CRITICAL_SECTION m_lock;
 
 	LRESULT OnUpdateMsg( WPARAM wParam, LPARAM lParam );
