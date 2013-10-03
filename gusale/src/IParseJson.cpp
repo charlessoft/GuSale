@@ -123,7 +123,7 @@ void IParseJson::PrintValueTree( Json::Value &value, IParseJson* pParent, IParse
                 {
                     const std::string &name = *it;
 
-					g_Logger.Debug( __FILE__, __LINE__, UTF8ToUnicode(name).c_str());
+					//g_Logger.Debug( __FILE__, __LINE__, UTF8ToUnicode(name).c_str());
 					pTmpJsonNode = pobj->CreateJsonItem( name );
 
 					if ( pTmpJsonNode )
