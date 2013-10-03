@@ -79,7 +79,6 @@ EThreadRoutineExitType CWorkerThread::Run_InTake()
 		SaleInfo.GetSaleInfo(INTAKE,nOffset ,10);
 		nOffset += 10;
 		
-		
 		EnterCriticalSection( &pDlg->m_lock );
 		vector<CGuSaleList*>::iterator Iter;
 		CGuSaleList* pSaleList = NULL;
@@ -87,7 +86,7 @@ EThreadRoutineExitType CWorkerThread::Run_InTake()
 		{
 			CTime CurDatetime = CTime::GetCurrentTime();
 
-			sDateTime = CurDatetime.Format("%y-%d-%m %H:%M:%S"); //ex: 12/10/98
+			sDateTime = CurDatetime.Format("%y-%m-%d %H:%M:%S"); //ex: 12/10/98
 			pSaleList = *Iter;
 
 			sprintf(szSqlbuf, ("insert into INTAKE(id, expert_id, operate, stock, shares, price, operate_time, created_at, updated_at, user_name, uid, avatar, stock_name, my_operate_time) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"),
@@ -98,14 +97,13 @@ EThreadRoutineExitType CWorkerThread::Run_InTake()
 
 			g_Logger.Debug( __FILE__, __LINE__, _T("%s"), UTF8ToUnicode(szSqlbuf).c_str() );
  			
-
 			sprintf( szbuf, "select count(*) from INTAKE where id = '%s'", pSaleList->m_id.c_str() );
 			CDataTable* pDt = g_DbOperate.GetDtTable(szbuf);
 
 			CString strValue;
 			CDataRow* pDataRow = pDt->Rows[0];
 			pDataRow->GetColumn(0)->GetValue( strValue );
-
+			delete pDt;
 			if ( strValue.CompareNoCase( L"0" ) != 0 )
 			{
 				g_Logger.Error( __FILE__, __LINE__, _T("已经存在sql!!"));
@@ -117,15 +115,18 @@ EThreadRoutineExitType CWorkerThread::Run_InTake()
 				{
 					g_Logger.Debug( __FILE__, __LINE__, _T("插入失败"));
 				}
-
 			}
-
-		
 		}
+		
+		if ( nOffset % 1000 == 0 )
+		{
+			nOffset = 0;
+		}
+		PostMessage( pDlg->m_hWnd, WM_UPDATE_MESSAGE, THREAD_TYPE_PULL_INTAKE, nOffset );
+
 		LeaveCriticalSection( &pDlg->m_lock );
 		
-		
-		Sleep(2000);
+		Sleep(1000);
 	}
 	return	OTHERRESON;
 }
@@ -153,25 +154,24 @@ EThreadRoutineExitType CWorkerThread::Run_OffTake()
 		{
 			CTime CurDatetime = CTime::GetCurrentTime();
 
-			sDateTime = CurDatetime.Format("%y-%d-%m %H:%M:%S"); //ex: 12/10/98
+			sDateTime = CurDatetime.Format("%y-%m-%d %H:%M:%S"); //ex: 12/10/98
 			pSaleList = *Iter;
 
-			sprintf(szSqlbuf, ("insert into INTAKE(id, expert_id, operate, stock, shares, price, operate_time, created_at, updated_at, user_name, uid, avatar, stock_name, my_operate_time) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"),
-				pSaleList->m_id.c_str(), pSaleList->m_expert_id.c_str(), pSaleList->m_operate.c_str(), pSaleList->m_stock.c_str(), pSaleList->m_shares.c_str(), pSaleList->m_price.c_str(),
-				pSaleList->m_operate_time.c_str(), pSaleList->m_created_at.c_str(), pSaleList->m_updated_at.c_str(), pSaleList->m_user_name.data(), pSaleList->m_user_id.c_str(),
-				pSaleList->m_avatar.c_str(), pSaleList->m_stock_name.c_str(), W2A(sDateTime.GetBuffer()));
-
+			sprintf( szSqlbuf, "insert into OFFTAKE(id, user_id, stock, count, buy_price, buy_time, sell_time, trans_earn, rate, time_type, opp_id, sell_price, user_name, uid, avatar, stock_name,my_operate_time) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+				pSaleList->m_id.c_str(), pSaleList->m_user_id.c_str(),pSaleList->m_stock.c_str(),pSaleList->m_count.c_str(),
+				pSaleList->m_buy_price.c_str(),pSaleList->m_buy_time.c_str(),pSaleList->m_sell_time.c_str(),pSaleList->m_trans_earn.c_str(),
+				pSaleList->m_rate.c_str(),pSaleList->m_time_type.c_str(),pSaleList->m_opp_id.c_str(),pSaleList->m_sell_price.c_str(),
+				pSaleList->m_user_name.c_str(),pSaleList->m_uid.c_str(),pSaleList->m_avatar.c_str(),pSaleList->m_stock_name.c_str(),W2A(sDateTime.GetBuffer()));
 
 			g_Logger.Debug( __FILE__, __LINE__, _T("%s"), UTF8ToUnicode(szSqlbuf).c_str() );
 
-
-			sprintf( szbuf, "select count(*) from INTAKE where id = '%s'", pSaleList->m_id.c_str() );
+			sprintf( szbuf, "select count(*) from OFFTAKE where id = '%s'", pSaleList->m_id.c_str() );
 			CDataTable* pDt = g_DbOperate.GetDtTable(szbuf);
 
 			CString strValue;
 			CDataRow* pDataRow = pDt->Rows[0];
 			pDataRow->GetColumn(0)->GetValue( strValue );
-
+			delete pDt;
 			if ( strValue.CompareNoCase( L"0" ) != 0 )
 			{
 				g_Logger.Error( __FILE__, __LINE__, _T("已经存在sql!!"));
@@ -186,12 +186,18 @@ EThreadRoutineExitType CWorkerThread::Run_OffTake()
 
 			}
 
-
 		}
+
+		if ( nOffset % 1000 == 0 )
+		{
+			nOffset = 0;
+		}
+
+		PostMessage( pDlg->m_hWnd, WM_UPDATE_MESSAGE, THREAD_TYPE_PULL_OFFTAKE, nOffset );
+
 		LeaveCriticalSection( &pDlg->m_lock );
 
-
-		Sleep(2000);
+		Sleep(1000);
 	}
 	return	OTHERRESON;
 }
@@ -257,16 +263,13 @@ DWORD WINAPI CWorkerThread::ThreadRoutine( LPVOID lpParam )
     return 0;
 }
 
+
 INT_PTR CWorkerThread::TaskDialog()
 {
     if ( NULL == m_hEventDlgClosed )
     {
         m_hEventDlgClosed = CreateEvent( NULL, TRUE, FALSE, NULL );
     }
-
-//    m_ThreadDialog.SetStopEvent( m_hStopEvent );
-
- //   INT_PTR nRet = m_ThreadDialog.DoModal();
 
     return 1;
 }

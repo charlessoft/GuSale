@@ -36,6 +36,8 @@ public:
 public:
 	int m_nview_cnt;
 	CRITICAL_SECTION m_lock;
+
+	LRESULT OnUpdateMsg( WPARAM wParam, LPARAM lParam );
 public:
 	afx_msg void OnDestroy();
 };

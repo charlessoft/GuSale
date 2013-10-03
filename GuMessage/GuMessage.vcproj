@@ -17,14 +17,15 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="..\$(ConfigurationName)\vc8"
+			IntermediateDirectory="../temp/$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -99,8 +100,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="..\$(ConfigurationName)\vc8"
+			IntermediateDirectory="..\temp\$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -108,6 +109,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -149,6 +151,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

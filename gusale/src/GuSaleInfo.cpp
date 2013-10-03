@@ -107,5 +107,6 @@ IParseJson* CGuSaleInfo::CreateJsonItem( string strKey )
 		m_pGuSaleData = new CGuSaleData;
 		return m_pGuSaleData;
 	}
+	return NULL;
 	
 }

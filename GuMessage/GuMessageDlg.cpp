@@ -73,6 +73,7 @@ BEGIN_MESSAGE_MAP(CGuMessageDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDOK, &CGuMessageDlg::OnBnClickedOk)
 	ON_WM_DESTROY()
+	ON_MESSAGE(WM_UPDATE_MESSAGE, OnUpdateMsg) 
 END_MESSAGE_MAP()
 
 
@@ -131,24 +132,24 @@ void CGuMessageDlg::InitData()
 void CGuMessageDlg::BeginPullData()
 {
 
- 	CWorkerThread* pWorkInTakeThread = new CWorkerThread();
- 	pWorkInTakeThread->SetIndex( 0 );
- 	pWorkInTakeThread->SetType( THREAD_TYPE_PULL_INTAKE );
- 	pWorkInTakeThread->SetAutoDelete( TRUE );
- 	if ( FALSE == m_ThreadPool.Run( pWorkInTakeThread ))
- 	{
- 		g_Logger.Debug( __FILE__, __LINE__, _T("获取买入线程失败!") );
- 	}
-
-
-//  	CWorkerThread* pWorkOffTakeThread = new CWorkerThread();
-//  	pWorkOffTakeThread->SetIndex( 0 );
-//  	pWorkOffTakeThread->SetType( THREAD_TYPE_PULL_OFFTAKE );
-//  	pWorkOffTakeThread->SetAutoDelete( TRUE );
-//  	if ( FALSE == m_ThreadPool.Run( pWorkOffTakeThread ))
+//  	CWorkerThread* pWorkInTakeThread = new CWorkerThread();
+//  	pWorkInTakeThread->SetIndex( 0 );
+//  	pWorkInTakeThread->SetType( THREAD_TYPE_PULL_INTAKE );
+//  	pWorkInTakeThread->SetAutoDelete( TRUE );
+//  	if ( FALSE == m_ThreadPool.Run( pWorkInTakeThread ))
 //  	{
-//  		g_Logger.Debug( __FILE__, __LINE__, _T("获取卖出线程失败!") );
+//  		g_Logger.Debug( __FILE__, __LINE__, _T("获取买入线程失败!") );
 //  	}
+
+
+   	CWorkerThread* pWorkOffTakeThread = new CWorkerThread();
+   	pWorkOffTakeThread->SetIndex( 0 );
+   	pWorkOffTakeThread->SetType( THREAD_TYPE_PULL_OFFTAKE );
+   	pWorkOffTakeThread->SetAutoDelete( TRUE );
+   	if ( FALSE == m_ThreadPool.Run( pWorkOffTakeThread ))
+   	{
+   		g_Logger.Debug( __FILE__, __LINE__, _T("获取卖出线程失败!") );
+   	}
 
 
 
@@ -279,4 +280,22 @@ void CGuMessageDlg::OnDestroy()
 
 	DeleteCriticalSection( &m_lock );
 	// TODO: Add your message handler code here
+}
+
+
+LRESULT CGuMessageDlg::OnUpdateMsg( WPARAM wParam, LPARAM lParam )
+{
+	int nType = (int)wParam;
+	CString strCount;
+	strCount.Format( _T("%d个"), (int)lParam );
+	if ( nType == THREAD_TYPE_PULL_OFFTAKE )
+	{
+		SetDlgItemText(IDC_INTAKE_LAB, strCount.GetBuffer() );
+	}
+	else
+	{
+		SetDlgItemText(IDC_OFFTAKE_LAB, strCount.GetBuffer() );
+
+	}
+	return 1;
 }

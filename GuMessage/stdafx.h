@@ -41,6 +41,10 @@
 
 #include <afxdisp.h>        // MFC Automation classes
 
+
+#define WM_UPDATE_MESSAGE (WM_USER+100)
+
+
 #include "../gusale/include/CService.h"
 #include "../gusale/include/GuSaleInfo.h"
 #include "../gusale/include/GuSaleData.h"
@@ -61,9 +65,9 @@ using namespace std;
 
 //#include "../gusale/include/CService.h"
 
-#include "../gusale/lib/curl/include/curl/curl.h"
+#include "../gusale/lib/curl-7.32.0/include/curl/curl.h"
 
-#pragma comment(lib,"../gusale/lib/curl/debug-ssl-zlib/libcurld.lib")
+//#pragma comment(lib,"../gusale/lib/curl/debug-ssl-zlib/libcurld.lib")
 
 
 

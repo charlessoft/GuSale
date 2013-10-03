@@ -49,7 +49,7 @@ public:
 	//卖出
 	string m_user_id;
 	
-	int m_count; //卖出多少股票
+	string m_count; //卖出多少股票
 
 	string m_buy_price; //买入价格
 

@@ -8,6 +8,7 @@ CGuSaleList::CGuSaleList()
 	mapfunc["operate"] = &CGuSaleList::SetOperate;
 	mapfunc["stock"] = &CGuSaleList::SetStock;
 	mapfunc["price"] = &CGuSaleList::SetPrice;
+	mapfunc["shares"] = &CGuSaleList::SetShares;
 	mapfunc["operate_time"] = &CGuSaleList::SetOperate_time;
 	mapfunc["created_at"] = &CGuSaleList::SetCreated_at;
 	mapfunc["updated_at"] = &CGuSaleList::SetUpdated_at;
@@ -111,7 +112,7 @@ void CGuSaleList::SetUser_id( string key, CGobj* pGuSale, void* obj)
 
 void CGuSaleList::SetCount( string key, CGobj* pGuSale, void* obj)
 {
-	this->m_count = (int)obj;
+	this->m_count = (char*)obj;
 }
 
 void CGuSaleList::SetBuy_price( string key, CGobj* pGuSale, void* obj)
@@ -136,17 +137,17 @@ void CGuSaleList::SetRate( string key, CGobj* pGuSale, void* obj)
 
 void CGuSaleList::SetTime_type( string key, CGobj* pGuSale, void* obj)
 {
-
+	this->m_time_type = (char*)obj;
 }
 
 void CGuSaleList::SetOpp_id( string key, CGobj* pGuSale, void* obj)
 {
-
+	this->m_opp_id = (char*)obj;
 }
 
 void CGuSaleList::SetSell_price( string key, CGobj* pGuSale, void* obj)
 {
-
+	this->m_sell_price = (char*)obj;
 }
 
 

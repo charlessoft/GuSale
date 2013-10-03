@@ -1,4 +1,5 @@
-
+#include "../include/LoggerModule.h"
+#include "../include/StdString.h"
 #include "../include/IParseJson.h"
 #include <algorithm> // sort
 #include <stdio.h>
@@ -34,7 +35,7 @@ void IParseJson::DealJsonNode( string strNode, double value )
 
 IParseJson* IParseJson::CreateJsonItem( string strKey )
 {
-return NULL;
+	return NULL;
 }
 
 void IParseJson::Callbak( Json::Value &value,CGobj* pRoot,CGobj* pcurrent,CGobj* pchild,CGobj* pDocPrevious,const std::string strkey,const std::string &path )
@@ -49,6 +50,7 @@ void IParseJson::Callbak( Json::Value &value,const std::string strkey,const std:
 
 void IParseJson::PrintValueTree( Json::Value &value, IParseJson* pParent, IParseJson* pobj, const std::string strkey,const std::string &path /*= ""*/ )
 {
+	IParseJson* pTmpJsonNode = NULL;
     switch ( value.type() )
     {
         case Json::nullValue:
@@ -68,20 +70,18 @@ void IParseJson::PrintValueTree( Json::Value &value, IParseJson* pParent, IParse
         case Json::realValue:
             break;
         case Json::stringValue:
-            //Callbak(value,pRoot,pcurrent,pchild,pDocPrevious,strkey,path);
+            //g_Logger.Debug( __FILE__, __LINE__, UTF8ToUnicode(strkey.c_str()).c_str() );
 			pobj->DealJsonNode( strkey, value.asString() );
             break;
         case Json::booleanValue:
             {
-                //Callbak(value,pRoot,pcurrent,pchild,pDocPrevious,strkey,path);
+				//g_Logger.Debug( __FILE__, __LINE__, UTF8ToUnicode(strkey.c_str()).c_str() );    
 				pobj->DealJsonNode( strkey, value.asBool() );
             }
             break;
         case Json::arrayValue:
             {
  				int size = value.size();  
-// 				 Json::Value &tst = value[0];
-// 				 tst.Members
 
 				for ( int index =0; index < size; ++index )  
 				{  
@@ -91,7 +91,6 @@ void IParseJson::PrintValueTree( Json::Value &value, IParseJson* pParent, IParse
  					IParseJson* pTmpJsonNode = NULL;
 					if ( !m_bFirstCreateItem )
 					{
-						
 						pTmpJsonNode = pParent->CreateJsonItem( strkey );
 					}
 					else
@@ -100,8 +99,6 @@ void IParseJson::PrintValueTree( Json::Value &value, IParseJson* pParent, IParse
 						pTmpJsonNode = pobj;
 					}
 					
-  					
-  
   					if ( pTmpJsonNode != NULL )
   					{
   						//pParent = pobj;
@@ -111,24 +108,8 @@ void IParseJson::PrintValueTree( Json::Value &value, IParseJson* pParent, IParse
   					else
   						PrintValueTree(/* fout,*/ value[index], pobj, pobj, /*strtmp,*/ strkey, path );
 
-					//PrintValueTree( value[index], pParent, pobj, path  );  
 				}  
 
-//                 int size = value.size();
-//                 for ( int index =0; index < size; ++index )
-//                 {
-// // 					IParseJson* pTmpJsonNode = NULL;
-// // 					pTmpJsonNode = pobj->CreateJsonItem( value );
-// // 
-// // 					if ( pTmpJsonNode != NULL )
-// // 					{
-// // 						pobj = pTmpJsonNode;
-// // 					}
-// 
-//                     //Callbak(value,pRoot,pcurrent,pchild,pDocPrevious,strkey,path);
-// 					pobj->PrintValueTree(/* fout,*/ value[name], pobj, /*strtmp,*/ name,path + suffix + name );
-// 					//DealJsonNode( strkey, value );
-//                 }
             }
             break;
         case Json::objectValue:
@@ -142,10 +123,10 @@ void IParseJson::PrintValueTree( Json::Value &value, IParseJson* pParent, IParse
                 {
                     const std::string &name = *it;
 
-					IParseJson* pTmpJsonNode = NULL;
+					g_Logger.Debug( __FILE__, __LINE__, UTF8ToUnicode(name).c_str());
 					pTmpJsonNode = pobj->CreateJsonItem( name );
 
-					if ( pTmpJsonNode != NULL )
+					if ( pTmpJsonNode )
 					{
 						m_bFirstCreateItem = TRUE;
 						pParent = pobj;
