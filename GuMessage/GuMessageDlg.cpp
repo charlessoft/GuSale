@@ -131,14 +131,14 @@ void CGuMessageDlg::InitData()
 void CGuMessageDlg::BeginPullData()
 {
 
-//  	CWorkerThread* pWorkInTakeThread = new CWorkerThread();
-//  	pWorkInTakeThread->SetIndex( 0 );
-//  	pWorkInTakeThread->SetType( THREAD_TYPE_PULL_INTAKE );
-//  	pWorkInTakeThread->SetAutoDelete( TRUE );
-//  	if ( FALSE == m_ThreadPool.Run( pWorkInTakeThread ))
-//  	{
-//  		g_Logger.Debug( __FILE__, __LINE__, _T("获取买入线程失败!") );
-//  	}
+  	CWorkerThread* pWorkInTakeThread = new CWorkerThread();
+  	pWorkInTakeThread->SetIndex( 0 );
+  	pWorkInTakeThread->SetType( THREAD_TYPE_PULL_INTAKE );
+  	pWorkInTakeThread->SetAutoDelete( TRUE );
+  	if ( FALSE == m_ThreadPool.Run( pWorkInTakeThread ))
+  	{
+  		g_Logger.Debug( __FILE__, __LINE__, _T("获取买入线程失败!") );
+  	}
 
 
    	CWorkerThread* pWorkOffTakeThread = new CWorkerThread();
