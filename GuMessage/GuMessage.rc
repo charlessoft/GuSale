@@ -90,7 +90,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,428,7,50,16
     PUSHBUTTON      "Cancel",IDCANCEL,428,25,50,16
-    EDITTEXT        IDC_VIEW_CNT,118,7,52,14,ES_AUTOHSCROLL
     LTEXT           "获取买入数据个数:",IDC_STATIC,36,34,68,8
     LTEXT           "获取卖出数据个数:",IDC_STATIC,36,68,68,8
     LTEXT           "",IDC_INTAKE_LAB,114,33,50,8
