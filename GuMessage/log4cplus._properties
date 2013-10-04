@@ -37,4 +37,4 @@ log4cplus.appender.ALL_MSGS.File=log\GuMessage.log
 log4cplus.appender.ALL_MSGS.MaxFileSize=10MB
 log4cplus.appender.ALL_MSGS.MaxBackupIndex=10
 log4cplus.appender.ALL_MSGS.layout=log4cplus::PatternLayout
-log4cplus.appender.ALL_MSGS.layout.ConversionPattern=%d{%y/%m/%d %H:%M:%S} [%t] %-5p %c{2} %%%x%% - %m [%l]%n
+log4cplus.appender.ALL_MSGS.layout.ConversionPattern=%D{%y/%m/%d %H:%M:%S} [%t] %-5p %c{2} %%%x%% - %m [%l]%n

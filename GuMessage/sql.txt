@@ -1,0 +1,41 @@
+create table INTAKE
+(
+id varchar(20),
+expert_id varchar(20),
+operate varchar(2),
+stock varchar(20),
+shares varchar(10),
+price varchar(10),
+operate_time datetime,
+created_at datetime,
+updated_at datetime,
+user_name varchar(100),
+uid varchar(20),
+avatar varchar(200),
+stock_name varchar(100),
+my_operate_time datetime,
+basecode varchar(200)
+)
+
+
+create table OFFTAKE
+(
+id varchar(20),
+user_id varchar(20),
+stock varchar(20),
+count varchar(10),
+buy_price varchar(20),
+buy_time datetime,
+sell_time datetime,
+trans_earn varchar(20),
+rate varchar(20),
+time_type varchar(10),
+opp_id varchar(20),
+sell_price varchar(20),
+user_name varchar(100),
+uid varchar(20),
+avatar varchar(100),
+stock_name varchar(100),
+my_operate_time datetime,
+basecode varchar(200)
+)

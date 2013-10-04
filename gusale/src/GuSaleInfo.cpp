@@ -1,9 +1,10 @@
 #include "../include/GuSaleInfo.h"
 #include "../include/CService.h"
 #include "../include/GuSaleData.h"
+#include "../include/LoggerModule.h"
+#include "../include/StdString.h"
 #include <iostream> 
 #include <sstream> 
-using namespace std; 
 using namespace std;
 CGuSaleInfo::CGuSaleInfo()
 {
@@ -73,6 +74,7 @@ void CGuSaleInfo::GetSaleInfo( int trade_type, int offset, int view_cnt )
 	Service CService;
 	//string strPostData = "trade_type=1&offset=1&view_cnt=11";
 	strPostDataStream << "trade_type=" << trade_type << "&offset=" << offset << "&view_cnt=" << view_cnt;
+	
 	string strPostData = strPostDataStream.str();
 	vector<string> custom_header;
 	custom_header.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
@@ -84,6 +86,7 @@ void CGuSaleInfo::GetSaleInfo( int trade_type, int offset, int view_cnt )
 	CService.HttpRequest("POST",strurl,custom_header, &putdata,&CService);
 	string buffer = CService.m_resp_buffer;
 	string header = CService.m_resp_header;
+	g_Logger.Debug( __FILE__, __LINE__, UTF8ToUnicode(strPostData).c_str() );
 
 	if ( buffer != "" )
 	{

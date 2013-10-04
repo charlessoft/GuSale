@@ -116,6 +116,9 @@ public:
 
 	void SetStock_name( string key, CGobj* pGuSale, void* obj);
 
+	void SetBuy_time( string key, CGobj* pGuSale, void* obj );
+
+
 	//IParseJson
 	virtual void DealJsonNode( string strNode, string value );
 

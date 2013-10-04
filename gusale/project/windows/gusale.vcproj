@@ -167,6 +167,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\GuSalePersonInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\IParseJson.cpp"
 				>
 			</File>
@@ -198,6 +202,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\GuSaleList.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\GuSalePersonInfo.h"
 				>
 			</File>
 			<File

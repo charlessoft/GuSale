@@ -25,7 +25,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;copy $(OutDir)\saledb.db $(OutDir)\saledb.db_bak&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -68,7 +68,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="uafxcwd.lib Libcmtd.lib"
 				LinkIncremental="2"
+				IgnoreDefaultLibraryNames="uafxcwd.lib Libcmtd.lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -109,7 +111,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)"
+				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;copy $(OutDir)\saledb.db $(OutDir)\saledb.db_bak&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -193,6 +195,18 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\base64.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\GuMessage.cpp"
 				>
 				<FileConfiguration
@@ -238,6 +252,10 @@
 			</File>
 			<File
 				RelativePath=".\StdString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TaskQueue.cpp"
 				>
 			</File>
 			<Filter
@@ -411,6 +429,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\base64.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GuMessage.h"
 				>
 			</File>
@@ -428,6 +450,10 @@
 			</File>
 			<File
 				RelativePath=".\StdString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TaskQueue.h"
 				>
 			</File>
 		</Filter>
