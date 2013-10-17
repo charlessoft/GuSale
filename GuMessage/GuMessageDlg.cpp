@@ -108,12 +108,13 @@ BOOL CGuMessageDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	
 	InitData();
-
+ 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
 void CGuMessageDlg::InitData()
 {
+	std::locale::global(std::locale("chs"));
 	g_Logger.StartSystem(_T("log4cplus._properties"));
 	g_Logger.Debug(__FILE__, __LINE__, _T("Init"));
 	m_ThreadPool.Create( POOL_SIZE, 1, 1, 1);
@@ -141,14 +142,14 @@ void CGuMessageDlg::BeginPullData()
   	}
 
 
-   	CWorkerThread* pWorkOffTakeThread = new CWorkerThread();
-   	pWorkOffTakeThread->SetIndex( 0 );
-   	pWorkOffTakeThread->SetType( THREAD_TYPE_PULL_OFFTAKE );
-   	pWorkOffTakeThread->SetAutoDelete( TRUE );
-   	if ( FALSE == m_ThreadPool.Run( pWorkOffTakeThread ))
-   	{
-   		g_Logger.Debug( __FILE__, __LINE__, _T("获取卖出线程失败!") );
-   	}
+//    	CWorkerThread* pWorkOffTakeThread = new CWorkerThread();
+//    	pWorkOffTakeThread->SetIndex( 0 );
+//    	pWorkOffTakeThread->SetType( THREAD_TYPE_PULL_OFFTAKE );
+//    	pWorkOffTakeThread->SetAutoDelete( TRUE );
+//    	if ( FALSE == m_ThreadPool.Run( pWorkOffTakeThread ))
+//    	{
+//    		g_Logger.Debug( __FILE__, __LINE__, _T("获取卖出线程失败!") );
+//    	}
 
 
 
@@ -208,6 +209,9 @@ const int UNICODE_TXT_FLG = 0xFEFF;  //UNICODE文本标示
 void CGuMessageDlg::OnBnClickedOk()
 {
 	BeginPullData();
+
+// 	CGuSalePersonInfo GuSalePersonInfo;
+// 	GuSalePersonInfo.GetPersonInfo("1915042",12,0,21);
 	// TODO: Add your control notification handler code here
 	//OnOK();
 // 	g_Logger.StartSystem(_T("log4cplus._properties"));
@@ -289,11 +293,12 @@ LRESULT CGuMessageDlg::OnUpdateMsg( WPARAM wParam, LPARAM lParam )
 	strCount.Format( _T("%d个"), (int)lParam );
 	if ( nType == THREAD_TYPE_PULL_OFFTAKE )
 	{
-		SetDlgItemText(IDC_INTAKE_LAB, strCount.GetBuffer() );
+		SetDlgItemText(IDC_OFFTAKE_LAB, strCount.GetBuffer() );
+		
 	}
 	else
 	{
-		SetDlgItemText(IDC_OFFTAKE_LAB, strCount.GetBuffer() );
+		SetDlgItemText(IDC_INTAKE_LAB, strCount.GetBuffer() );
 
 	}
 	return 1;

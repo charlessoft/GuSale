@@ -215,6 +215,14 @@ void CGuSaleList::SetSell_price( string key, CGobj* pGuSale, void* obj)
 	}
 }
 
+void CGuSaleList::SetBuy_time( string key, CGobj* pGuSale, void* obj )
+{
+	if ( obj )
+	{
+		this->m_buy_time = (char*)obj;
+	}
+}
+
 
 
 void CGuSaleList::DealJsonNode( string strNode, string value )

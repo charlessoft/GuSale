@@ -50,6 +50,7 @@
 #include "../gusale/include/GuSaleData.h"
 #include "../gusale/include/GuSaleList.h"
 #include "../gusale/include/LoggerModule.h"
+#include "../gusale/include/GuSalePersonInfo.h"
 
 
 #ifndef _AFX_NO_OLE_SUPPORT
