@@ -109,7 +109,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)"
+				CommandLine="mkdir $(OutDir)\log&#x0D;&#x0A;xcopy /y log4cplus._properties $(OutDir)&#x0D;&#x0A;xcopy /y saledb.db $(OutDir)&#x0D;&#x0A;xcopy /y sqlite3.dll $(OutDir)&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
