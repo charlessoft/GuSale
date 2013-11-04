@@ -1,5 +1,6 @@
-#include "../include/CService.h"
-
+#include "CService.h"
+#include <string>
+using namespace std;
 
 int Service::HttpRequest( const string http_method,
 	const string url )
