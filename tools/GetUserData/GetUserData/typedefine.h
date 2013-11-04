@@ -25,15 +25,13 @@ typedef int                 BOOL;
 
 //#include "../lib/jsoncpp/include/json/json.h"
 //#include "../lib/curl/include/curl/curl.h"
-#include "../../../gusale/lib/jsoncpp-src-0.5.0/include/json/json.h"
-#include "../../../gusale/lib/curl-7.32.0/include/curl/curl.h"
+//#include "../../../gusale/lib/jsoncpp-src-0.5.0/include/json/json.h"
+//#include "../../../gusale/lib/curl-7.32.0/include/curl/curl.h"
 
-#ifdef _DEBUG
-#pragma comment(lib,"../../../gusale/lib/curl-7.32.0/vs/vc8/lib/Debug/libcurl.lib")
-#pragma comment(lib,"../../../gusale/lib/jsoncpp-src-0.5.0/build/vs71/debug/lib_json/json_vc71_libmtd.lib")
-#endif
-#pragma comment(lib,"../../../gusale/lib/curl-7.32.0/vs/vc8/lib/Release/libcurl.lib")
-//#pragma comment(lib,"../../../gusale/lib/jsoncpp-src-0.5.0/build/vs71/Release/lib_json/json_vc71_libmtd.lib")
+#include <json/json.h>
+#include <curl/curl.h>
+//#pragma comment(lib,"E:/workplace/GuSale/gusale/lib/curl-7.32.0/vs/vc8/lib/Debug/libcurl.lib")
+
 #define	WIN_PLATFORM
 #include <windows.h>
 
@@ -44,3 +42,4 @@ using namespace std;
 #pragma comment(lib,"ws2_32.lib")
 #pragma comment(lib,"winmm.lib")
 #pragma comment(lib,"wldap32.lib")
+#pragma comment(lib,"Advapi32.lib")
