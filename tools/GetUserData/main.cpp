@@ -43,7 +43,7 @@ void WriteToFile(string buffer)
     }
 }
 
-int main(int argc char*[] argv)
+int main()
 {
     Service CService;
     string strurl="http://www.gu360.com/home/2310144";
